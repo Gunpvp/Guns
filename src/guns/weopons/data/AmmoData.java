@@ -31,11 +31,11 @@ public class AmmoData {
 		return material;
 	}
 
-	public GunSound getOut_of_ammo_sound() {
+	public GunSound getOutOfAmmoSound() {
 		return out_of_ammo_sound;
 	}
 
-	public GunSound getShoot_with_no_ammo_sound() {
+	public GunSound getShootWithNoAmmoSound() {
 		return shoot_with_no_ammo_sound;
 	}
 	

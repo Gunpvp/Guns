@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class GunSound {
 	
@@ -20,6 +21,10 @@ public class GunSound {
 	
 	public List<CustomSound> getSounds() {
 		return sounds;
+	}
+	
+	public void play(Player p) {
+		for (CustomSound sound : sounds) p.playSound(p.getLocation(), sound.getSound(), sound.getVolume(), sound.getPitch());
 	}
 	
 	public class CustomSound {

@@ -1,7 +1,9 @@
 package guns.weapons;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,6 +26,7 @@ public class GunMaster {
 	public static final String GUN_ITEM_PREFIX = "§g§u§n§r";
 	
 	private static List<GunData> datas = new ArrayList<>();
+	private static Map<Player, Gun> gun_table = new HashMap<>();
 	
 	/**
 	 * loads all data from gun file
@@ -37,12 +40,12 @@ public class GunMaster {
 		GunSound reload_sound = new GunSound(Sound.BLOCK_NOTE_HAT, 1, 1).addSound(Sound.BLOCK_NOTE_SNARE, 1, 6);
 		
 		ItemData item = new ItemData("§2§lColt45", Material.STONE_SPADE, "§7Pistol", aquire_sound);
-		ShootingData shoot = new ShootingData(true, true, 2, 0, 1, 5, "SNOWBALL", 40, false, 0, 0.3f, shoot_sound);
-		ReloadData reload = new ReloadData(true, false, 6, 35, reload_sound);
+		ShootingData shoot = new ShootingData(2, 1.2f, 1, 5, 40, false, 0, 0.3f, shoot_sound);
+		ReloadData reload = new ReloadData(true, false, 60, 35, reload_sound);
 		AmmoData ammo = new AmmoData(true, false, Material.SEEDS, out_of_ammo_sound, shoot_with_no_ammo_sound);
-		SneakData sneak = new SneakData(false, true, 0);
-		ScopeData scope = new ScopeData(false, 0, true, 0, null);
-		BurstfireData burst = new BurstfireData(false, 0, 0);
+		SneakData sneak = new SneakData(true, true, 0);
+		ScopeData scope = new ScopeData(true, 10, true, 0, aquire_sound);
+		BurstfireData burst = new BurstfireData(5, 10);
 		HeadshotData headshot = new HeadshotData(false, 0, false, null, null);
 		ExplosionData explosion = new ExplosionData(false, 0, 0, 0, null);
 		
@@ -55,7 +58,7 @@ public class GunMaster {
 	 * get gun data via name
 	 */
 	public static GunData getGunData(String name) {
-		for (GunData data : datas) if (data.getName().equals(name)) return data;
+		for (GunData data : datas) if (data.getName().startsWith(name)) return data;
 		return null;
 	}
 	
@@ -63,11 +66,18 @@ public class GunMaster {
 	 * test if player is holding gun in hand
 	 */
 	public static boolean hasGunInHand(Player p) {
-		return ((p.getInventory().getItemInMainHand() != null) && (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().startsWith(GUN_ITEM_PREFIX)));
+		if (p.getInventory().getItemInMainHand() != null
+				&& p.getInventory().getItemInMainHand().getItemMeta() != null
+				&& p.getInventory().getItemInMainHand().getItemMeta().getDisplayName() != null) {
+			
+			return p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().startsWith(GUN_ITEM_PREFIX);
+			
+		}
+		return false;
 	}
 	
 	/**
-	 * get gun out of players hand
+	 * get gun data out of players hand
 	 */
 	public static GunData getGunData(Player p) {
 		for (GunData data : datas) {
@@ -79,10 +89,46 @@ public class GunMaster {
 	}
 	
 	/**
-	 * shoot with weapon
+	 * get gun id from player hand item
 	 */
-	public static void shoot(Player p, GunData gun) {
-		
+	public static String getIDFromGun(Player p) {
+		String gun_name = p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
+		if (gun_name.startsWith(GUN_ITEM_PREFIX)) {
+			gun_name = gun_name.substring(GUN_ITEM_PREFIX.length(), GUN_ITEM_PREFIX.length()+20);
+			return gun_name;
+		}
+		return "Error. No gun found!";
+	}
+	
+	/**
+	 * is in gun table
+	 */
+	public static boolean isInGunTable(Player p) {
+		return gun_table.containsKey(p);
+	}
+	
+	/**
+	 * remove player from gun table
+	 * @return 
+	 */
+	public static Gun getGunFromPlayer(Player p) {
+		return gun_table.get(p);
+	}
+	
+	/**
+	 * add player to gun table
+	 */
+	public static Gun addToGunTable(Player p) {
+		Gun gun = new Gun(p.getInventory().getItemInMainHand());
+		gun_table.put(p,gun);
+		return gun;
+	}
+	
+	/**
+	 * remove player from gun table
+	 */
+	public static void removeFromGunTable(Player p) {
+		gun_table.remove(p);
 	}
 	
 }

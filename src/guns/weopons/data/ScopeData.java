@@ -15,19 +15,19 @@ public class ScopeData {
 		this.spread = spread;
 		this.toggle_sound = toggle_sound;
 	}
-	public boolean isScope() {
+	public boolean isScopeable() {
 		return scope;
 	}
-	public int getZoom_amount() {
+	public int getZoomAmount() {
 		return zoom_amount;
 	}
-	public boolean isSee_in_night() {
+	public boolean isSeeingInNight() {
 		return see_in_night;
 	}
 	public float getSpread() {
 		return spread;
 	}
-	public GunSound getToggle_sound() {
+	public GunSound getToggleSound() {
 		return toggle_sound;
 	}
 	
