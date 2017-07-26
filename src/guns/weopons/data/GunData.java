@@ -2,6 +2,7 @@ package guns.weopons.data;
 
 public class GunData {
 	
+	private String name;
 	private ItemData itemdata;
 	private ShootingData shootdata;
 	private ReloadData reloaddata;
@@ -12,9 +13,10 @@ public class GunData {
 	private HeadshotData headshotdata;
 	private ExplosionData explosion;
 	
-	public GunData(ItemData itemdata, ShootingData shootdata, ReloadData reloaddata, AmmoData ammodata,
+	public GunData(String name, ItemData itemdata, ShootingData shootdata, ReloadData reloaddata, AmmoData ammodata,
 			SneakData sneakdata, ScopeData scopedata, BurstfireData burstfiredata, HeadshotData headshotdata,
 			ExplosionData explosion) {
+		this.name = name;
 		this.itemdata = itemdata;
 		this.shootdata = shootdata;
 		this.reloaddata = reloaddata;
@@ -24,6 +26,10 @@ public class GunData {
 		this.burstfiredata = burstfiredata;
 		this.headshotdata = headshotdata;
 		this.explosion = explosion;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public ItemData getItemdata() {

@@ -4,7 +4,6 @@ import guns.weopons.data.GunData;
 
 public class Gun {
 	
-	public static final String GUN_ITEM_PREFIX = "§g§u§n";
 	
 	private GunData data;
 
