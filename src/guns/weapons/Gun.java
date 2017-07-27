@@ -20,7 +20,7 @@ public class Gun {
 	
 	private static final int ID_SIZE = 10;
 	private static final char NORMAL = '-';
-	private static final char OUT_OF_AMMO = 'x';
+	private static final char OUT_OF_AMMO = '□';
 	private static final char RELOAD = '↓';
 	private static final char BURST = '~';
 	private static final Random RANDOM = new Random();

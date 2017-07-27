@@ -25,6 +25,7 @@ public class GunMaster {
 	
 	public static final String GUN_ITEM_PREFIX = "§g§u§n§r";
 	public static final String PROJECTILE_PREFIX = "§b§a§nl§l§r";
+	public static final String EXPLOSIVE_PREFIX = "§b§a§nl§l§r";
 	
 	private static List<GunData> datas = new ArrayList<>();
 	private static Map<Player, Gun> gun_table = new HashMap<>();
@@ -42,14 +43,14 @@ public class GunMaster {
 		GunSound reload_sound_finish = new GunSound(Sound.BLOCK_NOTE_SNARE, 1, 6);
 		
 		ItemData item = new ItemData("§2§lColt45", Material.STONE_SPADE, "§7Pistol", aquire_sound);
-		ShootingData shoot = new ShootingData(20, 0.6f, 4, 5, 3, false, 0, 1.2f, shoot_sound);
+		ShootingData shoot = new ShootingData(40, 0.6f, 1, 5, 3, false, 0, 1.2f, shoot_sound);
 		ReloadData reload = new ReloadData(false, false, false, 6, 5, reload_sound_start, reload_sound_finish);
 		AmmoData ammo = new AmmoData(true, false, Material.SEEDS, out_of_ammo_sound, shoot_with_no_ammo_sound);
 		SneakData sneak = new SneakData(true, true, 0.7f);
 		ScopeData scope = new ScopeData(true, 100, true, 0.7f, aquire_sound);
 		BurstfireData burst = new BurstfireData(0, 0);
 		HeadshotData headshot = new HeadshotData(true, 0, true, aquire_sound, aquire_sound);
-		ExplosionData explosion = new ExplosionData(false, 0, 0, 0, null);
+		ExplosionData explosion = new ExplosionData(true, 4, 5, 5, shoot_sound);
 		
 		
 		datas.add(new GunData("Colt45", item, shoot, reload, ammo, sneak, scope, burst, headshot, explosion));

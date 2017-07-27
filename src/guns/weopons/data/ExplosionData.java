@@ -16,7 +16,7 @@ public class ExplosionData {
 		this.shooter = shooter;
 	}
 
-	public boolean isExplosion() {
+	public boolean isExploding() {
 		return explosion;
 	}
 
