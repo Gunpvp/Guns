@@ -42,18 +42,18 @@ public class GunMaster {
 		GunSound reload_sound_start = new GunSound(Sound.BLOCK_NOTE_HAT, 1, 1);
 		GunSound reload_sound_finish = new GunSound(Sound.BLOCK_NOTE_SNARE, 1, 6);
 		
-		ItemData item = new ItemData("§2§lColt45", Material.STONE_SPADE, "§7Pistol", aquire_sound);
-		ShootingData shoot = new ShootingData(40, 0.6f, 1, 5, 3, false, 0, 1.2f, shoot_sound);
-		ReloadData reload = new ReloadData(false, false, false, 6, 5, reload_sound_start, reload_sound_finish);
+		ItemData item = new ItemData(Material.STONE_SPADE, "§7Pistol", aquire_sound);
+		ShootingData shoot = new ShootingData(2, 0.3f, 1, 3, 5, false, 0, 1.2f, shoot_sound);
+		ReloadData reload = new ReloadData(true, false, true, 30, 30, reload_sound_start, reload_sound_finish);
 		AmmoData ammo = new AmmoData(true, false, Material.SEEDS, out_of_ammo_sound, shoot_with_no_ammo_sound);
-		SneakData sneak = new SneakData(true, true, 0.7f);
-		ScopeData scope = new ScopeData(true, 100, true, 0.7f, aquire_sound);
-		BurstfireData burst = new BurstfireData(0, 0);
-		HeadshotData headshot = new HeadshotData(true, 0, true, aquire_sound, aquire_sound);
-		ExplosionData explosion = new ExplosionData(true, 4, 5, 5, shoot_sound);
+		SneakData sneak = new SneakData(true, true, 0.1f);
+		ScopeData scope = new ScopeData(true, 2, true, 0.1f, aquire_sound);
+		BurstfireData burst = new BurstfireData(4, 2);
+		HeadshotData headshot = new HeadshotData(false, 4, true, aquire_sound, aquire_sound);
+		ExplosionData explosion = new ExplosionData(false, 0, 0, 0, shoot_sound);
 		
 		
-		datas.add(new GunData("Colt45", item, shoot, reload, ammo, sneak, scope, burst, headshot, explosion));
+		datas.add(new GunData("AK74", item, shoot, reload, ammo, sneak, scope, burst, headshot, explosion));
 		
 	}
 	

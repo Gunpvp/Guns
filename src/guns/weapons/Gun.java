@@ -33,6 +33,7 @@ public class Gun {
 	private boolean reloading;
 	private boolean scoping;
 	private boolean clicked_while_burst;
+	private boolean ready;
 	private String id;
 	private ItemStack item;
 
@@ -47,6 +48,7 @@ public class Gun {
 		this.id = generateID();
 		this.ammo = data.getReloaddata().getReloadAmount();
 		this.item = generateItem();
+		this.ready = true;
 		
 	}
 	
@@ -60,6 +62,7 @@ public class Gun {
 		this.id = name.substring(GunMaster.GUN_ITEM_PREFIX.length(),GunMaster.GUN_ITEM_PREFIX.length()+20);
 		this.data = GunMaster.getGunData(name.substring(GunMaster.GUN_ITEM_PREFIX.length()+24).split(" ")[0]);
 		this.ammo = Integer.parseInt(name.substring(GunMaster.GUN_ITEM_PREFIX.length()+24).split(" ")[2].substring(2));
+		this.ready = true;
 		
 	}
 	
@@ -67,6 +70,8 @@ public class Gun {
 	 * shoot with gun
 	 */
 	public void shoot(Player p) {
+		
+		if (!ready) return;
 		
 		// check if weapon is not reloading or bursting at the moment
 		if (!reloading && burst == 0) {
@@ -87,6 +92,13 @@ public class Gun {
 				data.getShootdata().getShootSound().play(p);
 				for (int n = 0;n < data.getShootdata().getProjectiles();n++) shootProj(p);
 				updateItemName(p);
+				
+				ready = false;
+				Timer.delay(new Action() {
+					public void perform() {
+						ready = true;
+					}
+				}, data.getShootdata().getDelayBetweenShots());
 				
 				// if you run out of ammo play sound
 				if (ammo == 0) {
@@ -121,6 +133,8 @@ public class Gun {
 	public void reload(Player p) {
 		
 		if (reloading) return;
+		
+		if (scoping) scope(p);
 		
 		// check if gun does not need ammo
 		if (!data.getReloaddata().isReloadingWithAmmo()) {

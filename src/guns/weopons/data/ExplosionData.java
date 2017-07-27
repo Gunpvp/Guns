@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class ExplosionData {
+import java.io.Serializable;
+
+public class ExplosionData implements Serializable {
 	
 	private boolean explosion;
 	private float radius;

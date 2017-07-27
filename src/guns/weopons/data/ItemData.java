@@ -1,23 +1,19 @@
 package guns.weopons.data;
 
+import java.io.Serializable;
+
 import org.bukkit.Material;
 
-public class ItemData {
+public class ItemData implements Serializable {
 	
-	private String name;
 	private Material material;
 	private String lore;
 	private GunSound sound;
 	
-	public ItemData(String name, Material material, String lore, GunSound sound) {
-		this.name = name;
+	public ItemData(Material material, String lore, GunSound sound) {
 		this.material = material;
 		this.lore = lore;
 		this.sound = sound;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public Material getMaterial() {

@@ -1,12 +1,13 @@
 package guns.weopons.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class GunSound {
+public class GunSound implements Serializable {
 	
 	private List<CustomSound> sounds = new ArrayList<>();
 	
@@ -27,7 +28,7 @@ public class GunSound {
 		for (CustomSound sound : sounds) p.playSound(p.getLocation(), sound.getSound(), sound.getVolume(), sound.getPitch());
 	}
 	
-	public class CustomSound {
+	public class CustomSound implements Serializable {
 		
 		private Sound sound;
 		private int volume;

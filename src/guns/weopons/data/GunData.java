@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class GunData {
+import java.io.Serializable;
+
+public class GunData implements Serializable {
 	
 	private String name;
 	private ItemData itemdata;

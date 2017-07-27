@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class ReloadData {
+import java.io.Serializable;
+
+public class ReloadData implements Serializable {
 	
 	private boolean reload_ammo;
 	private boolean reload_individual;

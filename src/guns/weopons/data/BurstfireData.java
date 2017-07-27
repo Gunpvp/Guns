@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class BurstfireData {
+import java.io.Serializable;
+
+public class BurstfireData implements Serializable {
 	
 	private int shots_per_burst;
 	private int delay_between;

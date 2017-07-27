@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class ShootingData {
+import java.io.Serializable;
+
+public class ShootingData implements Serializable {
 	
 	private int delay_between_shots;
 	private float recoil;

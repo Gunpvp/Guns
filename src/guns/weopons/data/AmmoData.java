@@ -1,8 +1,10 @@
 package guns.weopons.data;
 
+import java.io.Serializable;
+
 import org.bukkit.Material;
 
-public class AmmoData {
+public class AmmoData implements Serializable {
 	
 	private Material material;
 	private GunSound out_of_ammo_sound;

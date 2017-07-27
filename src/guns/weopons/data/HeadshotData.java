@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class HeadshotData {
+import java.io.Serializable;
+
+public class HeadshotData implements Serializable {
 	
 	private boolean headshot;
 	private float bouns_damage;

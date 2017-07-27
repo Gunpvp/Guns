@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class ScopeData {
+import java.io.Serializable;
+
+public class ScopeData implements Serializable {
 	
 	private boolean scope;
 	private int zoom_amount;

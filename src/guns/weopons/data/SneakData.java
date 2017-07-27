@@ -1,6 +1,8 @@
 package guns.weopons.data;
 
-public class SneakData {
+import java.io.Serializable;
+
+public class SneakData implements Serializable {
 	
 	private boolean sneak_depending;
 	private boolean block_recoil;
