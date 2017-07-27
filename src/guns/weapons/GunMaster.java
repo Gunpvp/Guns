@@ -41,7 +41,7 @@ public class GunMaster {
 		
 		ItemData item = new ItemData("§2§lColt45", Material.STONE_SPADE, "§7Pistol", aquire_sound);
 		ShootingData shoot = new ShootingData(2, 1.2f, 1, 5, 40, false, 0, 0.3f, shoot_sound);
-		ReloadData reload = new ReloadData(true, false, 60, 35, reload_sound);
+		ReloadData reload = new ReloadData(true, false, true, 60, 35, reload_sound);
 		AmmoData ammo = new AmmoData(true, false, Material.SEEDS, out_of_ammo_sound, shoot_with_no_ammo_sound);
 		SneakData sneak = new SneakData(true, true, 0);
 		ScopeData scope = new ScopeData(true, 10, true, 0, aquire_sound);

@@ -28,6 +28,7 @@ public class Gun {
 	private int burst_task = -1;
 	private boolean reloading;
 	private boolean scoping;
+	private boolean clicked_while_burst;
 	private String id;
 	private ItemStack item;
 
@@ -97,7 +98,10 @@ public class Gun {
 				
 			}
 			
-		} else if (reloading) {
+		} else if (!reloading && burst > 0) {
+			clicked_while_burst = true;
+		}
+		else if (reloading) {
 			
 		}
 		
@@ -167,6 +171,10 @@ public class Gun {
 					// if no ammo cancel burst
 					else {
 						burst = 0;
+						if (clicked_while_burst && data.getReloaddata().isFullyAutomatic()) {
+							shoot(p);
+						}
+						clicked_while_burst = false;
 						Timer.cancel(burst_task);
 						burst_task = -1;
 					}

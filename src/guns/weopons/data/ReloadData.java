@@ -4,14 +4,16 @@ public class ReloadData {
 	
 	private boolean reload_ammo;
 	private boolean reload_individual;
+	private boolean fully_automatic;
 	private int reload_amount;
 	private int reload_duration;
 	private GunSound reload_sound;
 	
-	public ReloadData(boolean reload_ammo, boolean reload_individual, int reload_amount, int reload_duration,
+	public ReloadData(boolean reload_ammo, boolean reload_individual, boolean fully_automatic, int reload_amount, int reload_duration,
 			GunSound reload_sound) {
 		this.reload_ammo = reload_ammo;
 		this.reload_individual = reload_individual;
+		this.fully_automatic = fully_automatic;
 		this.reload_amount = reload_amount;
 		this.reload_duration = reload_duration;
 		this.reload_sound = reload_sound;
@@ -23,6 +25,10 @@ public class ReloadData {
 
 	public boolean isReload_individual() {
 		return reload_individual;
+	}
+	
+	public boolean isFullyAutomatic() {
+		return fully_automatic;
 	}
 
 	public int getReload_amount() {
