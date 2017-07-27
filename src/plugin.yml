@@ -6,3 +6,4 @@ main: guns.Guns
 commands:
   guns:
     description:
+    

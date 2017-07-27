@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import guns.Action;
 import guns.Timer;
@@ -21,11 +23,13 @@ public class Gun {
 	private static final char OUT_OF_AMMO = 'x';
 	private static final char RELOAD = '↓';
 	private static final char BURST = '~';
+	private static final Random RANDOM = new Random();
 	
 	private GunData data;
 	private int ammo;
 	private int burst;
 	private int burst_task = -1;
+	private int reload_task = -1;
 	private boolean reloading;
 	private boolean scoping;
 	private boolean clicked_while_burst;
@@ -41,7 +45,7 @@ public class Gun {
 		
 		this.data = data;
 		this.id = generateID();
-		this.ammo = data.getReloaddata().getReload_amount();
+		this.ammo = data.getReloaddata().getReloadAmount();
 		this.item = generateItem();
 		
 	}
@@ -81,11 +85,14 @@ public class Gun {
 				
 				// play sound and update item name
 				data.getShootdata().getShootSound().play(p);
+				for (int n = 0;n < data.getShootdata().getProjectiles();n++) shootProj(p);
 				updateItemName(p);
 				
 				// if you run out of ammo play sound
 				if (ammo == 0) {
 					
+					// auto reload
+					if (data.getReloaddata().isFullyAutomatic()) reload(p);
 					data.getAmmodata().getOutOfAmmoSound().play(p);
 					
 				}
@@ -94,7 +101,8 @@ public class Gun {
 			// if no ammo on shoot play no ammo sound
 			else {
 				
-				data.getAmmodata().getShootWithNoAmmoSound().play(p);
+				reload(p);
+				if (!reloading) data.getAmmodata().getShootWithNoAmmoSound().play(p);
 				
 			}
 			
@@ -111,6 +119,117 @@ public class Gun {
 	 * reload gun
 	 */
 	public void reload(Player p) {
+		
+		if (reloading) return;
+		
+		// check if gun does not need ammo
+		if (!data.getReloaddata().isReloadingWithAmmo()) {
+			
+			// start reloading
+			reloading = true;
+			data.getReloaddata().getReloadSoundStart().play(p);
+			updateItemName(p);
+			
+			if (data.getReloaddata().isReloadingIndividually()) {
+				reload_task = Timer.repeat(new Action() {
+					
+					@Override
+					public void perform() {
+						Gun.this.ammo += 1;
+						data.getReloaddata().getReloadSoundFinish().play(p);
+						updateItemName(p);
+						if (Gun.this.ammo >= data.getReloaddata().getReloadAmount()) {
+							reloading = false;
+							data.getReloaddata().getReloadSoundFinish().play(p);
+							updateItemName(p);
+							Timer.cancel(reload_task);
+							reload_task = -1;
+						}
+					}
+				}, data.getReloaddata().getReloadDuration(), data.getReloaddata().getReloadDuration());
+			} else {
+				Timer.delay(new Action() {
+					
+					@Override
+					public void perform() {
+						// set ammo to max and finish reloading
+						Gun.this.ammo = Gun.this.data.getReloaddata().getReloadAmount();
+						data.getReloaddata().getReloadSoundFinish().play(p);
+						reloading = false;
+						updateItemName(p);
+					}
+				}, data.getReloaddata().getReloadDuration());
+			}
+			
+		} 
+		// if gun needs ammo
+		else {
+			// take ammo from player and calc final ammo
+			int ammo_needed = data.getReloaddata().getReloadAmount()-this.ammo;
+			int ammo_found = 0;
+			
+			for (ItemStack item : p.getInventory()) {
+				
+				if (item != null && item.getType() == data.getAmmodata().getMaterial()) {
+					
+					if (ammo_found+item.getAmount()>=ammo_needed) {
+						item.setAmount(item.getAmount()-(ammo_needed-ammo_found));
+						if (item.getAmount()==0) p.getInventory().remove(item);
+						p.updateInventory();
+						ammo_found = ammo_needed;
+						break;
+					} else {
+						ammo_found+=item.getAmount();
+						p.getInventory().remove(item);
+						p.updateInventory();
+					}
+					
+				}
+				
+			}
+			
+			if (ammo_found > 0) {
+				
+				final int ammo = ammo_found;
+				reloading = true;
+				data.getReloaddata().getReloadSoundStart().play(p);
+				updateItemName(p);
+				
+				if (data.getReloaddata().isReloadingIndividually()) {
+					reload_task = Timer.repeat(new Action() {
+						
+						private int iterations = 0;
+						
+						@Override
+						public void perform() {
+							Gun.this.ammo += 1;
+							iterations++;
+							data.getReloaddata().getReloadSoundFinish().play(p);
+							updateItemName(p);
+							if (iterations >= ammo) {
+								reloading = false;
+								data.getReloaddata().getReloadSoundFinish().play(p);
+								updateItemName(p);
+								Timer.cancel(reload_task);
+								reload_task = -1;
+							}
+						}
+					}, data.getReloaddata().getReloadDuration(), data.getReloaddata().getReloadDuration());
+				} else {
+					Timer.delay(new Action() {
+						
+						@Override
+						public void perform() {
+							Gun.this.ammo += ammo;
+							data.getReloaddata().getReloadSoundFinish().play(p);
+							reloading = false;
+							updateItemName(p);
+						}
+					}, data.getReloaddata().getReloadDuration());
+				}
+				
+			}
+		}
 		
 	}
 	
@@ -150,8 +269,9 @@ public class Gun {
 	 * burst fire with gun 
 	 */
 	public void burst(Player p) {
-		if (burst_task == -1) {
+		if (burst == 0 && burst_task == -1) {
 			this.burst = data.getBurstfiredata().getShotsPerBurst()-1;
+			if (burst == -1) burst = 0;
 			burst_task = Timer.repeat(new Action() {
 				public void perform() {
 					// check ammo before shooting
@@ -166,6 +286,7 @@ public class Gun {
 						
 						// play sound and update item name
 						data.getShootdata().getShootSound().play(p);
+						for (int n = 0;n < data.getShootdata().getProjectiles();n++) shootProj(p);
 						updateItemName(p);
 					}
 					// if no ammo cancel burst
@@ -173,6 +294,8 @@ public class Gun {
 						burst = 0;
 						if (clicked_while_burst && data.getReloaddata().isFullyAutomatic()) {
 							shoot(p);
+							// auto reload
+							if (ammo == 0) reload(p);
 						}
 						clicked_while_burst = false;
 						Timer.cancel(burst_task);
@@ -181,6 +304,21 @@ public class Gun {
 				}
 			}, data.getShootdata().getDelayBetweenShots(), data.getShootdata().getDelayBetweenShots());
 		}
+	}
+	
+	/**
+	 * shoot projectile
+	 */
+	public void shootProj(Player p) {
+		float spread = 0.2f*(RANDOM.nextInt(3)-1);
+		if (data.getSneakdata().isSneakDepending() && p.isSneaking()) spread *= data.getSneakdata().getSpread();
+		if (scoping) spread *= data.getScopedata().getSpread();
+		if (!p.isSneaking() && !scoping) spread *= data.getShootdata().getSpread();
+		Vector vec = p.getLocation().getDirection().normalize().multiply(data.getShootdata().getSpeed()).add(Vector.getRandom().multiply(spread));
+		Snowball ball = p.launchProjectile(Snowball.class, vec);
+		ball.setCustomName(GunMaster.PROJECTILE_PREFIX + ";" + p.getName() + ";" + data.getShootdata().getDamage() + ";"
+				+ (data.getHeadshotdata().isHeadshotEnabled() ? data.getHeadshotdata().getBounsDamage() : 0) + ";" + data.getName());
+		ball.setCustomNameVisible(false);
 	}
 	
 	/**
@@ -224,11 +362,15 @@ public class Gun {
 	}
 	
 	private void updateItemName(Player p) {
+		p.sendMessage("Ammo: " + ammo);
+		p.sendMessage("Burst: " + burst);
+		p.sendMessage("Reloading: " + reloading);
 		ItemMeta meta = item.getItemMeta();
 		char mode = 'X';
 		if (!reloading && burst == 0 && ammo > 0) mode = NORMAL;
 		if (!reloading && burst > 0 && ammo > 0) mode = BURST;
-		if (!reloading && burst == 0 && ammo == 0) mode = OUT_OF_AMMO;
+		if (!reloading && ammo == 0) mode = OUT_OF_AMMO;
+		if (reloading) mode = RELOAD;
 		
 		meta.setDisplayName(GunMaster.GUN_ITEM_PREFIX+id+"§2§l"+data.getName() + " §8§l<§7"+mode+"§8§l> §a" + this.ammo);
 		

@@ -7,23 +7,25 @@ public class ReloadData {
 	private boolean fully_automatic;
 	private int reload_amount;
 	private int reload_duration;
-	private GunSound reload_sound;
+	private GunSound reload_sound_start;
+	private GunSound reload_sound_finish;
 	
 	public ReloadData(boolean reload_ammo, boolean reload_individual, boolean fully_automatic, int reload_amount, int reload_duration,
-			GunSound reload_sound) {
+			GunSound reload_sound_start, GunSound reload_sound_finish) {
 		this.reload_ammo = reload_ammo;
 		this.reload_individual = reload_individual;
 		this.fully_automatic = fully_automatic;
 		this.reload_amount = reload_amount;
 		this.reload_duration = reload_duration;
-		this.reload_sound = reload_sound;
+		this.reload_sound_start = reload_sound_start;
+		this.reload_sound_finish = reload_sound_finish;
 	}
 
-	public boolean isReload_ammo() {
+	public boolean isReloadingWithAmmo() {
 		return reload_ammo;
 	}
 
-	public boolean isReload_individual() {
+	public boolean isReloadingIndividually() {
 		return reload_individual;
 	}
 	
@@ -31,16 +33,20 @@ public class ReloadData {
 		return fully_automatic;
 	}
 
-	public int getReload_amount() {
+	public int getReloadAmount() {
 		return reload_amount;
 	}
 
-	public int getReload_duration() {
+	public int getReloadDuration() {
 		return reload_duration;
 	}
 
-	public GunSound getReload_sound() {
-		return reload_sound;
+	public GunSound getReloadSoundStart() {
+		return reload_sound_start;
+	}
+	
+	public GunSound getReloadSoundFinish() {
+		return reload_sound_finish;
 	}
 	
 }

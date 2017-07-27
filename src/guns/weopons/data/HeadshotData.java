@@ -18,11 +18,11 @@ public class HeadshotData {
 		this.victim_sound = victim_sound;
 	}
 
-	public boolean isHeadshot() {
+	public boolean isHeadshotEnabled() {
 		return headshot;
 	}
 
-	public float getBouns_damage() {
+	public float getBounsDamage() {
 		return bouns_damage;
 	}
 
@@ -30,11 +30,11 @@ public class HeadshotData {
 		return firework;
 	}
 
-	public GunSound getShooter_sound() {
+	public GunSound getShooterSound() {
 		return shooter_sound;
 	}
 
-	public GunSound getVictim_sound() {
+	public GunSound getVictimSound() {
 		return victim_sound;
 	}
 	
