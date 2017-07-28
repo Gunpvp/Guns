@@ -6,6 +6,8 @@ public class Listeners {
 		
 		new PlayerInteractListener();
 		new ProjectileHitListener();
+		new PlayerHeldItemListener();
+		new PlayerDropListener();
 		
 	}
 	

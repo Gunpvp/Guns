@@ -69,7 +69,7 @@ public class ProjectileHitListener extends Listener{
 								
 							}
 						}
-						entity.damage(final_damage);
+						entity.damage(final_damage, shooter);
 					}
 					
 				}
@@ -99,7 +99,7 @@ public class ProjectileHitListener extends Listener{
 			
 			if (in_range instanceof Damageable) {
 				Damageable damageable = (Damageable) in_range;
-				damageable.damage(data.getDamage());
+				damageable.damage(data.getDamage(), ((Player) proj.getShooter()));
 				Vector vec = proj.getLocation().toVector().subtract(in_range.getLocation().toVector()).normalize();
 				in_range.setVelocity(vec.multiply(-data.getKnockback()));
 			}

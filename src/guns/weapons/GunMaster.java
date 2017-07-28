@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import guns.weopons.data.AmmoData;
 import guns.weopons.data.BurstfireData;
@@ -123,6 +124,15 @@ public class GunMaster {
 	 */
 	public static Gun addToGunTable(Player p) {
 		Gun gun = new Gun(p.getInventory().getItemInMainHand());
+		gun_table.put(p,gun);
+		return gun;
+	}
+	
+	/**
+	 * add player to gun table with bound item
+	 */
+	public static Gun addToGunTable(Player p, ItemStack gun_item) {
+		Gun gun = new Gun(gun_item);
 		gun_table.put(p,gun);
 		return gun;
 	}

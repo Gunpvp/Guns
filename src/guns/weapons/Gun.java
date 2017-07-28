@@ -408,4 +408,16 @@ public class Gun {
 		return item;
 	}
 	
+	public boolean isScoping() {
+		return scoping;
+	}
+	
+	public boolean isReloading() {
+		return reloading;
+	}
+	
+	public boolean isOutOfAmmo() {
+		return ammo==0;
+	}
+	
 }
