@@ -10,7 +10,7 @@ public class AmmoData implements Serializable {
 	private GunSound out_of_ammo_sound;
 	private GunSound shoot_with_no_ammo_sound;
 	
-	public AmmoData(boolean take_ammo_per_shot, boolean take_single_on_reload, Material material,
+	public AmmoData(Material material,
 			GunSound out_of_ammo_sound, GunSound shoot_with_no_ammo_sound) {
 		this.material = material;
 		this.out_of_ammo_sound = out_of_ammo_sound;
