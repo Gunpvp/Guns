@@ -1,26 +1,16 @@
 package guns.weapons;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import guns.weopons.data.AmmoData;
-import guns.weopons.data.BurstfireData;
-import guns.weopons.data.ExplosionData;
 import guns.weopons.data.GunData;
-import guns.weopons.data.GunSound;
-import guns.weopons.data.HeadshotData;
-import guns.weopons.data.ItemData;
-import guns.weopons.data.ReloadData;
-import guns.weopons.data.ScopeData;
-import guns.weopons.data.ShootingData;
-import guns.weopons.data.SneakData;
 
 public class GunMaster {
 	
@@ -36,25 +26,16 @@ public class GunMaster {
 	 */
 	public static void loadGuns() {
 
-		GunSound aquire_sound = new GunSound(Sound.ENTITY_BAT_TAKEOFF, 1, 1);
-		GunSound shoot_sound = new GunSound(Sound.ENTITY_IRONGOLEM_HURT, 1, 2).addSound(Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1, 2);
-		GunSound out_of_ammo_sound = new GunSound(Sound.BLOCK_NOTE_PLING, 1, 2);
-		GunSound shoot_with_no_ammo_sound = new GunSound(Sound.BLOCK_NOTE_HAT, 1, 2);
-		GunSound reload_sound_start = new GunSound(Sound.BLOCK_NOTE_HAT, 1, 1);
-		GunSound reload_sound_finish = new GunSound(Sound.BLOCK_NOTE_SNARE, 1, 6);
+		File files = new File("plugins/Gunpvp/weapons/");
 		
-		ItemData item = new ItemData(Material.STONE_SPADE, "§7Pistol", aquire_sound);
-		ShootingData shoot = new ShootingData(2, 0.3f, 1, 3, 5, false, 0, 1.2f, shoot_sound);
-		ReloadData reload = new ReloadData(true, false, true, 30, 30, reload_sound_start, reload_sound_finish);
-		AmmoData ammo = new AmmoData(true, false, Material.SEEDS, out_of_ammo_sound, shoot_with_no_ammo_sound);
-		SneakData sneak = new SneakData(true, true, 0.1f);
-		ScopeData scope = new ScopeData(true, 2, true, 0.1f, aquire_sound);
-		BurstfireData burst = new BurstfireData(4, 2);
-		HeadshotData headshot = new HeadshotData(false, 4, true, aquire_sound, aquire_sound);
-		ExplosionData explosion = new ExplosionData(false, 0, 0, 0, shoot_sound);
+		for (File weapon_file : files.listFiles()) {
+			
+			GunData data = Parser.loadFromFile(weapon_file);
+			datas.add(data);
+			
+		}
 		
-		
-		datas.add(new GunData("AK74", item, shoot, reload, ammo, sneak, scope, burst, headshot, explosion));
+		Bukkit.getConsoleSender().sendMessage("§8[§eGuns§8] §7Loaded §e" + datas.size() + "§7 weapons!");
 		
 	}
 	
