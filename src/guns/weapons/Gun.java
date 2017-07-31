@@ -397,7 +397,7 @@ public class Gun {
 		
 		for (int n = 0;n< ID_SIZE;n++) {
 			id = random.nextInt(10);
-			full_id = full_id + "ยง" +  id;
+			full_id = full_id + "ง" +  id;
 		}
 		return full_id;
 	}
@@ -421,7 +421,7 @@ public class Gun {
 		if (!reloading && ammo == 0) mode = OUT_OF_AMMO;
 		if (reloading) mode = RELOAD;
 		
-		meta.setDisplayName(GunMaster.GUN_ITEM_PREFIX+id+"ยง2ยงl"+data.getName() + " ยง8ยงl<ยง7"+mode+"ยง8ยงl> ยงa" + this.ammo);
+		meta.setDisplayName(GunMaster.GUN_ITEM_PREFIX+id+"ง2งl"+data.getName() + " ง8งl<ง7"+mode+"ง8งl> งa" + this.ammo);
 		
 		item.setItemMeta(meta);
 		p.updateInventory();
@@ -437,7 +437,7 @@ public class Gun {
 		ItemData itemdata = data.getItemdata();
 		ItemStack item = new ItemStack(itemdata.getMaterial(), 1, (short) 0);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(GunMaster.GUN_ITEM_PREFIX+id+"ยง2ยงl"+data.getName() + " ยง8ยงl<ยง7"+NORMAL+"ยง8ยงl> ยงa" + this.ammo);
+		meta.setDisplayName(GunMaster.GUN_ITEM_PREFIX+id+"ง2งl"+data.getName() + " ง8งl<ง7"+NORMAL+"ง8งl> งa" + this.ammo);
 		meta.setLore(Arrays.asList(itemdata.getLore()));
 		item.setItemMeta(meta);
 		return item;
