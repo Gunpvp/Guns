@@ -271,7 +271,7 @@ public class Gun {
 	
 	public void drag(Player p, Snowball proj) {
 		
-		if (data.getShootdata().isDragging() && drag_task != -1) {
+		if (data.getShootdata().isDraggingDown() && drag_task != -1) {
 			drag_task = Timer.repeat(new Action() {
 				public void perform() {
 					

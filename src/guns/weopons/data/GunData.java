@@ -14,10 +14,11 @@ public class GunData implements Serializable {
 	private BurstfireData burstfiredata;
 	private HeadshotData headshotdata;
 	private ExplosionData explosion;
+	private EffectData effect;
 	
 	public GunData(String name, ItemData itemdata, ShootingData shootdata, ReloadData reloaddata, AmmoData ammodata,
 			SneakData sneakdata, ScopeData scopedata, BurstfireData burstfiredata, HeadshotData headshotdata,
-			ExplosionData explosion) {
+			ExplosionData explosion, EffectData effect) {
 		this.name = name;
 		this.itemdata = itemdata;
 		this.shootdata = shootdata;
@@ -28,6 +29,7 @@ public class GunData implements Serializable {
 		this.burstfiredata = burstfiredata;
 		this.headshotdata = headshotdata;
 		this.explosion = explosion;
+		this.effect = effect;
 	}
 	
 	public String getName() {
@@ -68,6 +70,10 @@ public class GunData implements Serializable {
 
 	public ExplosionData getExplosion() {
 		return explosion;
+	}
+
+	public EffectData getEffect() {
+		return effect;
 	}
 	
 }

@@ -15,9 +15,12 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import guns.weapons.GunMaster;
+import guns.weopons.data.EffectData;
 import guns.weopons.data.ExplosionData;
 import guns.weopons.data.GunData;
 
@@ -44,16 +47,21 @@ public class ProjectileHitListener extends Listener{
 					float final_damage = damage;
 
 					if (data.getExplosion().isExploding()) {
-						createExplosion(data.getExplosion(), proj);
+						createExplosion(data.getExplosion(), data.getEffect(), proj);
 					} else {
 						Damageable entity = (Damageable) e.getHitEntity();
 						if (e.getHitEntity() instanceof LivingEntity) {
 							
 							LivingEntity lentity = (LivingEntity) e.getHitEntity();
+							
+							if (data.getEffect().isEffecting()) {
+								lentity.addPotionEffect(new PotionEffect(PotionEffectType.getByName(data.getEffect().getEffect_name()), data.getEffect().getDelay(), data.getEffect().getAmplitude()));
+							}
+							
 							double difference = Math.abs((lentity.getEyeLocation().getY()) - proj.getLocation().getY());
 							if (difference < 0.3 && data.getHeadshotdata().isHeadshotEnabled()) {
 								
-								if (data.getHeadshotdata().isFirework()) {
+								if (data.getHeadshotdata().isFireworkEnabled()) {
 									Firework firework = (Firework) shooter.getWorld().spawnEntity(lentity.getEyeLocation(), EntityType.FIREWORK);
 									FireworkMeta meta = firework.getFireworkMeta();
 									meta.addEffect(FireworkEffect.builder().trail(true).withColor(Color.GREEN).with(Type.CREEPER).build());
@@ -79,7 +87,7 @@ public class ProjectileHitListener extends Listener{
 					GunData data = GunMaster.getGunData(params[4]);
 					
 					if (data.getExplosion().isExploding()) {
-						createExplosion(data.getExplosion(), proj);
+						createExplosion(data.getExplosion(), data.getEffect(), proj);
 					}
 					
 				}
@@ -91,7 +99,7 @@ public class ProjectileHitListener extends Listener{
 		
 	}
 	
-	private void createExplosion(ExplosionData data, Snowball proj) {
+	private void createExplosion(ExplosionData data, EffectData effect, Snowball proj) {
 		
 		proj.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, proj.getLocation().getX(), proj.getLocation().getY(), proj.getLocation().getZ(), 1);
 		
@@ -100,6 +108,11 @@ public class ProjectileHitListener extends Listener{
 			if (in_range instanceof Damageable) {
 				Damageable damageable = (Damageable) in_range;
 				damageable.damage(data.getDamage(), ((Player) proj.getShooter()));
+				
+				if (effect.isEffecting() && in_range instanceof Player) {
+					((Player)in_range).addPotionEffect(new PotionEffect(PotionEffectType.getByName(effect.getEffect_name()), effect.getDelay(), effect.getAmplitude()));
+				}
+				
 				Vector vec = proj.getLocation().toVector().subtract(in_range.getLocation().toVector()).normalize();
 				in_range.setVelocity(vec.multiply(-data.getKnockback()));
 			}

@@ -28,7 +28,7 @@ public class HeadshotData implements Serializable {
 		return bouns_damage;
 	}
 
-	public boolean isFirework() {
+	public boolean isFireworkEnabled() {
 		return firework;
 	}
 
