@@ -30,6 +30,7 @@ public class Gun {
 	private int burst;
 	private int burst_task = -1;
 	private int reload_task = -1;
+	private int drag_task = -1;
 	private boolean reloading;
 	private boolean scoping;
 	private boolean clicked_while_burst;
@@ -120,9 +121,6 @@ public class Gun {
 			
 		} else if (!reloading && burst > 0) {
 			clicked_while_burst = true;
-		}
-		else if (reloading) {
-			
 		}
 		
 	}
@@ -270,6 +268,40 @@ public class Gun {
 		}
 	}
 	
+	
+	public void drag(Player p, Snowball proj) {
+		
+		if (data.getShootdata().isDragging() && drag_task != -1) {
+			drag_task = Timer.repeat(new Action() {
+				public void perform() {
+					
+					if (proj != null && p != null) {
+						
+						double dx = p.getLocation().getX()-proj.getLocation().getX();
+						double dy = p.getLocation().getY()-proj.getLocation().getY();
+						double distance = Math.sqrt(dx*dx+dy*dy);
+						
+						if (distance > data.getShootdata().getDragDistance()) {
+							
+							proj.remove();
+							Timer.cancel(drag_task);
+							drag_task = -1;
+							
+						}
+						
+					} else {
+						
+						Timer.cancel(drag_task);
+						drag_task = -1;
+						
+					}
+					
+				}
+			}, 5, 5);
+		}
+		
+	}
+	
 	/**
 	 * recoil player
 	 */
@@ -323,7 +355,7 @@ public class Gun {
 	/**
 	 * shoot projectile
 	 */
-	public void shootProj(Player p) {
+	public void shootProj(final Player p) {
 		float spread = 0.2f*(RANDOM.nextInt(3)-1);
 		if (data.getSneakdata().isSneakDepending() && p.isSneaking()) spread *= data.getSneakdata().getSpread();
 		if (scoping) spread *= data.getScopedata().getSpread();
@@ -333,6 +365,8 @@ public class Gun {
 		ball.setCustomName(GunMaster.PROJECTILE_PREFIX + ";" + p.getName() + ";" + data.getShootdata().getDamage() + ";"
 				+ (data.getHeadshotdata().isHeadshotEnabled() ? data.getHeadshotdata().getBounsDamage() : 0) + ";" + data.getName());
 		ball.setCustomNameVisible(false);
+		
+		drag(p, ball);
 	}
 	
 	/**
