@@ -3,9 +3,9 @@ package guns.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import guns.weapons.data.GunData;
 import guns.weapons.Gun;
 import guns.weapons.GunMaster;
-import guns.weopons.data.GunData;
 
 public class GunsCommand extends Command {
 

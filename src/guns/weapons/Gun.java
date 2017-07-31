@@ -13,15 +13,15 @@ import org.bukkit.util.Vector;
 
 import guns.Action;
 import guns.Timer;
-import guns.weopons.data.GunData;
-import guns.weopons.data.ItemData;
+import guns.weapons.data.GunData;
+import guns.weapons.data.ItemData;
 
 public class Gun {
 	
 	private static final int ID_SIZE = 10;
 	private static final char NORMAL = '-';
-	private static final char OUT_OF_AMMO = '□';
-	private static final char RELOAD = '↓';
+	private static final char OUT_OF_AMMO = '*';
+	private static final char RELOAD = '#';
 	private static final char BURST = '~';
 	private static final Random RANDOM = new Random();
 	
@@ -362,6 +362,7 @@ public class Gun {
 		if (!p.isSneaking() && !scoping) spread *= data.getShootdata().getSpread();
 		Vector vec = p.getLocation().getDirection().normalize().multiply(data.getShootdata().getSpeed()).add(Vector.getRandom().multiply(spread));
 		Snowball ball = p.launchProjectile(Snowball.class, vec);
+		if (data.getShootdata().isProjectilesBurn()) ball.setFireTicks(60);
 		ball.setCustomName(GunMaster.PROJECTILE_PREFIX + ";" + p.getName() + ";" + data.getShootdata().getDamage() + ";"
 				+ (data.getHeadshotdata().isHeadshotEnabled() ? data.getHeadshotdata().getBounsDamage() : 0) + ";" + data.getName());
 		ball.setCustomNameVisible(false);

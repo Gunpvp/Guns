@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import guns.weopons.data.GunData;
+import guns.weapons.data.GunData;
 
 public class Parser {
 	

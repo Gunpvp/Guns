@@ -1,4 +1,4 @@
-package guns.weopons.data;
+package guns.weapons.data;
 
 import java.io.Serializable;
 

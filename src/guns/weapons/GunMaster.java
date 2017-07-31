@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import guns.weopons.data.GunData;
+import guns.weapons.data.GunData;
 
 public class GunMaster {
 	

@@ -1,4 +1,4 @@
-package guns.weopons.data;
+package guns.weapons.data;
 
 import java.io.Serializable;
 
@@ -13,10 +13,11 @@ public class ShootingData implements Serializable {
 	private int drag_distance;
 	private float spread;
 	private GunSound shoot_sound;
+	private boolean projectiles_burn;
 	
 	public ShootingData(int delay_between_shots, float recoil,
 			int projectiles, float damage, int speed, boolean drag_down, int drag_distance,
-			float spread, GunSound shoot_sound) {
+			float spread, GunSound shoot_sound, boolean projectiles_burn) {
 		
 		this.delay_between_shots = delay_between_shots;
 		this.recoil = recoil;
@@ -27,6 +28,7 @@ public class ShootingData implements Serializable {
 		this.drag_distance = drag_distance;
 		this.spread = spread;
 		this.shoot_sound = shoot_sound;
+		this.projectiles_burn = projectiles_burn;
 		
 	}
 
@@ -64,6 +66,10 @@ public class ShootingData implements Serializable {
 
 	public GunSound getShootSound() {
 		return shoot_sound;
+	}
+	
+	public boolean isProjectilesBurn() {
+		return projectiles_burn;
 	}
 	
 }

@@ -19,10 +19,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import guns.weapons.data.EffectData;
+import guns.weapons.data.ExplosionData;
+import guns.weapons.data.GunData;
 import guns.weapons.GunMaster;
-import guns.weopons.data.EffectData;
-import guns.weopons.data.ExplosionData;
-import guns.weopons.data.GunData;
 
 public class ProjectileHitListener extends Listener{
 
