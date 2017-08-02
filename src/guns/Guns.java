@@ -3,6 +3,7 @@ package guns;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import guns.commands.Commands;
+import guns.items.Items;
 import guns.listener.Listeners;
 import guns.weapons.GunMaster;
 
@@ -24,6 +25,7 @@ public class Guns extends JavaPlugin {
 		Commands.init();
 		
 		GunMaster.loadGuns();
+		Items.load();
 		
 	}
 	
