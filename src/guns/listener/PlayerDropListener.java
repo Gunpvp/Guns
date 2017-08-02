@@ -1,14 +1,13 @@
 package guns.listener;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.inventory.ItemStack;
-
 import guns.Action;
 import guns.Timer;
 import guns.weapons.Gun;
 import guns.weapons.GunMaster;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerDropListener extends Listener {
 	
@@ -33,8 +32,8 @@ public class PlayerDropListener extends Listener {
 							GunMaster.removeFromGunTable(p);
 							GunMaster.addToGunTable(p);
 							Gun gun = GunMaster.getGunFromPlayer(p);
-							if (!gun.isReloading() && gun.isOutOfAmmo()) gun.reload(p);
-						}
+                            if (!gun.isReloading()) gun.reload(p);
+                        }
 					}, 5);
 					
 				}
